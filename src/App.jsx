@@ -1,9 +1,5 @@
 import React from 'react'
-//import { useState } from 'react'
-//import reactLogo from './assets/react.svg'
-//import viteLogo from '/vite.svg'
 import './App.css'
-//import Person from './coponents/Person'
 import Book from './coponents/Book'
 
 class App extends React.Component{
@@ -40,7 +36,13 @@ class App extends React.Component{
   }
 
   render(){
-    console.log(this.state.book);
+    const books = this.state.book.map((book, index) => {
+      return (
+        <div key={index}>
+        <Book BookName={book.BookName} BookWriter={book.BookWriter} />
+        </div>
+      );
+    });
     return(
       <div className='App'>
         <h1>My {this.state.brand}</h1>
@@ -49,34 +51,10 @@ class App extends React.Component{
 
         <button onClick={()=> this.changeBookName("1989")}>Change Book Name</button>
         <input type="text" onChange={this.changeWithInputState} />
-
-        <Book BookName={this.state.book[0].BookName} BookWriter={this.state.book[0].BookWriter} 
-        inputName={this.changeWithInputState}/>
-        <Book BookName={this.state.book[1].BookName} BookWriter={this.state.book[1].BookWriter} />
-        <Book BookName={this.state.book[2].BookName} BookWriter={this.state.book[2].BookWriter} change= {this.changeBookName.bind(this, "1990")}/>
+        {books}
       </div>
     )
   }
   
 }
-
-// function App() {
-//   return (
-//       <div >
-//         <h1>Hello World!</h1>
-//         <Person name="Karim" age="25">I am some extra info.</Person>
-//         <Person name="Suheni" age="18"/>
-//         <Person name="Bishwajit" age="15"/>
-//         <Person name="Bishnu" age="65"/>
-//       </div>
-//   )
-// }
-
-// function Person(){
-//   return (
-//     <div>
-//       <h1>I am a person</h1>
-//     </div>
-//   )
-// }
 export default App
