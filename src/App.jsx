@@ -4,11 +4,7 @@ import Book from './components/Book'
 
 class App extends React.Component{
   state = {
-        brand: "Ford",
-        model: "Mustang",
-        color: "Red",
-        year: "1984",
-        book: [
+        books: [
           {id:1, BookName:"1984", BookWriter:"George Otwell"},
           {id:2, BookName:"Da Vinci Code", BookWriter:"Dan Brown"},
           {id:3, BookName:"The Alchemist", BookWriter:"Paulo Coelho"}
@@ -16,29 +12,29 @@ class App extends React.Component{
       }
 
   deleteBookState = index => {
-    const updateBooks = [...this.state.book];
+    const updateBooks = [...this.state.books];
     updateBooks.splice(index, 1);
     this.setState({
-      book : updateBooks
+      books : updateBooks
     });
   }
 
   changeWithInputState = (event, index) => {
     const book = {
-      ...this.state.book[index]
+      ...this.state.books[index]
     }
     book.BookName = event.target.value;
-    const inputBook = [...this.state.book];
+    const inputBook = [...this.state.books];
     inputBook[index] = book;
 
     this.setState({
-      book : inputBook
+      books : inputBook
     })
   }
 
 
   render(){
-    const books = this.state.book.map((book, index) => {
+    const books = this.state.books.map((book, index) => {
       return (
         <div key={book.id}>
           <Book 
@@ -50,6 +46,7 @@ class App extends React.Component{
         </div>
       );
     });
+    
     return(
       <div className='App'>
         <h1>Book List</h1>
