@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import Book from './coponents/Book'
+import Book from './components/Book'
 
 class App extends React.Component{
   state = {
@@ -9,48 +9,50 @@ class App extends React.Component{
         color: "Red",
         year: "1984",
         book: [
-          {BookName:"1984", BookWriter:"George Otwell"},
-          {BookName:"Da Vinci Code", BookWriter:"Dan Brown"},
-          {BookName:"The Alchemist", BookWriter:"Paulo Coelho"}
+          {id:1, BookName:"1984", BookWriter:"George Otwell"},
+          {id:2, BookName:"Da Vinci Code", BookWriter:"Dan Brown"},
+          {id:3, BookName:"The Alchemist", BookWriter:"Paulo Coelho"}
         ]
       }
 
-  changeWithInputState = e =>{
+  deleteBookState = index => {
+    const updateBooks = [...this.state.book];
+    updateBooks.splice(index, 1);
     this.setState({
-      book: [
-        {BookName: e.target.value, BookWriter:"George Otwell"},
-        {BookName:"Da Vinci Code", BookWriter:"Dan Brown"},
-        {BookName:"The Alchemist", BookWriter:"Paulo Coelho"}
-      ]
+      book : updateBooks
+    });
+  }
+
+  changeWithInputState = (event, index) => {
+    const book = {
+      ...this.state.book[index]
+    }
+    book.BookName = event.target.value;
+    const inputBook = [...this.state.book];
+    inputBook[index] = book;
+
+    this.setState({
+      book : inputBook
     })
   }
 
-  changeBookName = newBookName =>{
-    this.setState({
-      book: [
-        {BookName:newBookName, BookWriter:"George Otwell"},
-        {BookName:"Da Vinci Code", BookWriter:"Dan Brown"},
-        {BookName:"The Alchemist", BookWriter:"Paulo Coelho"}
-      ]
-    })
-  }
 
   render(){
     const books = this.state.book.map((book, index) => {
       return (
-        <div key={index}>
-        <Book BookName={book.BookName} BookWriter={book.BookWriter} />
+        <div key={book.id}>
+          <Book 
+            BookName={book.BookName} 
+            BookWriter={book.BookWriter} 
+            deleteBook = {()=>this.deleteBookState(index)}
+            inputName = {(event)=>this.changeWithInputState(event, index)}
+          />  
         </div>
       );
     });
     return(
       <div className='App'>
-        <h1>My {this.state.brand}</h1>
-        <p>It is a {this.state.color} {this.state.model}</p>
-        <hr />
-
-        <button onClick={()=> this.changeBookName("1989")}>Change Book Name</button>
-        <input type="text" onChange={this.changeWithInputState} />
+        <h1>Book List</h1>
         {books}
       </div>
     )
