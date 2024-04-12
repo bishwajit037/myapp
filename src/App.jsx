@@ -24,11 +24,11 @@ class App extends React.Component{
       ...this.state.books[index]
     }
     book.BookName = event.target.value;
-    const inputBook = [...this.state.books];
-    inputBook[index] = book;
+    const allBooks = [...this.state.books];
+    allBooks[index] = book;
 
     this.setState({
-      books : inputBook
+      books : allBooks
     })
   }
 
