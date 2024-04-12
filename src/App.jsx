@@ -8,7 +8,8 @@ class App extends React.Component{
           {id:1, BookName:"1984", BookWriter:"George Otwell"},
           {id:2, BookName:"Da Vinci Code", BookWriter:"Dan Brown"},
           {id:3, BookName:"The Alchemist", BookWriter:"Paulo Coelho"}
-        ]
+        ],
+        showBooks : true
       }
 
   deleteBookState = index => {
@@ -24,6 +25,7 @@ class App extends React.Component{
       ...this.state.books[index]
     }
     book.BookName = event.target.value;
+
     const allBooks = [...this.state.books];
     allBooks[index] = book;
 
@@ -32,24 +34,34 @@ class App extends React.Component{
     })
   }
 
+  toggleBooks = () => {
+    this.setState({
+      showBooks : !this.state.showBooks
+    })
+  }
+
 
   render(){
-    const books = this.state.books.map((book, index) => {
-      return (
-        <div key={book.id}>
-          <Book 
-            BookName={book.BookName} 
-            BookWriter={book.BookWriter} 
-            deleteBook = {()=>this.deleteBookState(index)}
-            inputName = {(event)=>this.changeWithInputState(event, index)}
-          />  
-        </div>
-      );
-    });
+    let books = null;
+    if(this.state.showBooks){
+      books = this.state.books.map((book, index) => {
+        return (
+          <div key={book.id}>
+            <Book 
+              BookName={book.BookName} 
+              BookWriter={book.BookWriter} 
+              deleteBook = {()=>this.deleteBookState(index)}
+              inputName = {(event)=>this.changeWithInputState(event, index)}
+            />  
+          </div>
+        );
+      });
+    }
     
     return(
       <div className='App'>
         <h1>Book List</h1>
+        <button onClick={this.toggleBooks}>Toggle Books</button>
         {books}
       </div>
     )
